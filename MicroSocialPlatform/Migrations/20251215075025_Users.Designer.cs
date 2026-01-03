@@ -4,6 +4,7 @@ using MicroSocialPlatform.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MicroSocialPlatform.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251215075025_Users")]
+    partial class Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,18 +120,15 @@ namespace MicroSocialPlatform.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -151,9 +151,6 @@ namespace MicroSocialPlatform.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("AcceptedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("FollowedId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -173,8 +170,7 @@ namespace MicroSocialPlatform.Migrations
 
                     b.HasIndex("FollowedId");
 
-                    b.HasIndex("FollowerId", "FollowedId")
-                        .IsUnique();
+                    b.HasIndex("FollowerId");
 
                     b.ToTable("Follows");
                 });
@@ -220,12 +216,6 @@ namespace MicroSocialPlatform.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("JoinedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -256,14 +246,11 @@ namespace MicroSocialPlatform.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -294,9 +281,6 @@ namespace MicroSocialPlatform.Migrations
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -518,19 +502,19 @@ namespace MicroSocialPlatform.Migrations
 
             modelBuilder.Entity("MicroSocialPlatform.Models.Group", b =>
                 {
-                    b.HasOne("MicroSocialPlatform.Models.ApplicationUser", "Moderator")
+                    b.HasOne("MicroSocialPlatform.Models.ApplicationUser", "Admin")
                         .WithMany("OwnedGroups")
                         .HasForeignKey("ModeratorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Moderator");
+                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("MicroSocialPlatform.Models.GroupMembership", b =>
                 {
                     b.HasOne("MicroSocialPlatform.Models.Group", "Group")
-                        .WithMany("GroupMembers")
+                        .WithMany("Members")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -538,7 +522,7 @@ namespace MicroSocialPlatform.Migrations
                     b.HasOne("MicroSocialPlatform.Models.ApplicationUser", "User")
                         .WithMany("GroupMemberships")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
@@ -557,7 +541,7 @@ namespace MicroSocialPlatform.Migrations
                     b.HasOne("MicroSocialPlatform.Models.ApplicationUser", "User")
                         .WithMany("GroupMessages")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
@@ -570,7 +554,7 @@ namespace MicroSocialPlatform.Migrations
                     b.HasOne("MicroSocialPlatform.Models.ApplicationUser", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -667,9 +651,9 @@ namespace MicroSocialPlatform.Migrations
 
             modelBuilder.Entity("MicroSocialPlatform.Models.Group", b =>
                 {
-                    b.Navigation("GroupMembers");
-
                     b.Navigation("GroupMessages");
+
+                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("MicroSocialPlatform.Models.Post", b =>
