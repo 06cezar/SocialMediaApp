@@ -1,11 +1,15 @@
-﻿namespace MicroSocialPlatform.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MicroSocialPlatform.Models
 {
     public class Comment
     {
+        [Key]
         public int Id { get; set; }
-
-        public string Text { get; set; }
+        public string Content { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedAt { get; set; }
 
         // un comentariu apartine unui singur user
         public string UserId { get; set; }

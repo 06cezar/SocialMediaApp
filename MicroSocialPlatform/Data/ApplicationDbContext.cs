@@ -37,34 +37,76 @@ namespace MicroSocialPlatform.Data
                 .HasForeignKey(f => f.FollowedId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // COMMENT → USER (FARA CASCADE)
+            // Comment -> User (Fara Cascade)
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // COMMENT → POST (CU CASCADE)
+            // Comment -> Post (Cu Cascade)
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // REACTION → USER (FARA CASCADE)
+            // Reaction -> User (Fara Cascade)
             modelBuilder.Entity<Reaction>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reactions)
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // REACTION → POST (CU CASCADE)
+            // Reaction -> Post (Cu Cascade)
             modelBuilder.Entity<Reaction>()
                 .HasOne(r => r.Post)
                 .WithMany(p => p.Reactions)
                 .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Post -> User (Fara Cascade)
+            modelBuilder.Entity<Post>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            // GroupMembership -> Group (Cu Cascade)
+            modelBuilder.Entity<GroupMembership>()
+                .HasOne(gm => gm.Group)
+                .WithMany(g => g.GroupMembers)
+                .HasForeignKey(gm => gm.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // GroupMembership -> User (Fara Cascade)
+            modelBuilder.Entity<GroupMembership>()
+                .HasOne(gm => gm.User)
+                .WithMany(u => u.GroupMemberships)
+                .HasForeignKey(gm => gm.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // GroupMessage -> Group (Cu Cascade)
+            modelBuilder.Entity<GroupMessage>()
+                .HasOne(gm => gm.Group)
+                .WithMany(g => g.GroupMessages)
+                .HasForeignKey(gm => gm.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // GroupMessage -> User (Fara Cascade)
+            modelBuilder.Entity<GroupMessage>()
+                .HasOne(gm => gm.User)
+                .WithMany(u => u.GroupMessages)
+                .HasForeignKey(gm => gm.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Group moderator relationship
+            modelBuilder.Entity<Group>()
+                .HasOne(g => g.Moderator)
+                .WithMany(u => u.OwnedGroups)
+                .HasForeignKey(g => g.ModeratorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Reaction unique constraint
             modelBuilder.Entity<Reaction>()
@@ -76,12 +118,10 @@ namespace MicroSocialPlatform.Data
                 .HasIndex(gm => new { gm.UserId, gm.GroupId })
                 .IsUnique();
 
-            // Group moderator relationship
-            modelBuilder.Entity<Group>()
-                .HasOne(g => g.Admin)
-                .WithMany(u => u.OwnedGroups)
-                .HasForeignKey(g => g.ModeratorId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Follow unique constraint
+            modelBuilder.Entity<Follow>()
+                .HasIndex(f => new { f.FollowerId, f.FollowedId })
+                .IsUnique();
         }
 
 
