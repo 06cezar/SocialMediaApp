@@ -1,7 +1,10 @@
-﻿namespace MicroSocialPlatform.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MicroSocialPlatform.Models
 {
     public class Reaction
     {
+        [Key]
         public int Id { get; set; }
         public string Type { get; set; } = "Like"; // ex: "like", "dislike"
 
