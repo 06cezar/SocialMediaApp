@@ -10,6 +10,69 @@
     <div class="card-body text-center">
 
         <partial name="_ProfileSummary.cshtml" />
+        @using System.Security.Claims
+        @using MicroSocialPlatform.Models
+
+        @{
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var follow = ViewBag.Follow as Follow;
+        }
+
+        @if (User.Identity.IsAuthenticated && !ViewBag.IsMyProfile)
+        {
+            <div class="mt-3">
+
+                @if (follow == null)
+                {
+                    <form asp-action="Follow" method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button class="btn btn-primary">
+                            <i class="bi bi-person-plus"></i> Follow
+                        </button>
+                    </form>
+                }
+                else if (follow.Status == "Pending")
+                {
+                    <form asp-action="Unfollow" method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button class="btn btn-outline-warning"
+                                title="Waiting for approval">
+                            <i class="bi bi-hourglass-split"></i> Request sent
+                        </button>
+                    </form>
+                }
+                else if (follow.Status == "Accepted")
+                {
+                    <form asp-action="Unfollow" method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button class="btn btn-secondary">
+                            <i class="bi bi-person-check"></i> Following
+                        </button>
+                    </form>
+                }
+
+            </div>
+        }
+
+        @if (ViewBag.IsPrivateView)
+        {
+            <div class="alert alert-secondary mt-3 text-center">
+                <i class="bi bi-lock-fill"></i>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <span>Please log in and follow this account to see more.</span>
+                }
+                else
+                {
+                    <span>This account is private. Follow to see the full profile.</span>
+                }
+            </div>
+        }
+        else
+        {
+            @*<partial name="_ProfileSummary" model="Model" />*@
+        }
+
 
     </div>
 </div>
