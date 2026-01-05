@@ -31,7 +31,14 @@ public class ProfileController : Controller
         if (user == null || user.IsDeleted) // verific daca userul exista si nu e sters (soft delete)
             return NotFound();
 
+        var posts = await _db.Posts
+            .Include(p => p.User)
+            .Where(p => p.UserId == user.Id)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
         ViewBag.IsMyProfile = true;
+        ViewBag.Posts = posts;
         ViewBag.FollowersCount = GetFollowersCount(user.Id);
         ViewBag.FollowingCount = GetFollowingCount(user.Id);
         ViewBag.PendingRequestsCount = GetPendingRequestsCount(user.Id);
@@ -287,7 +294,7 @@ public class ProfileController : Controller
         // logica pentru profil privat
         /* if (user.IsPrivate && !isMyProfile)
             {
-                ViewBag.IsPrivateView = true;   // affisare limitata 
+                ViewBag.IsPrivateView = true;   // afisare limitata 
                 return View(user);
             }
         */
@@ -295,6 +302,15 @@ public class ProfileController : Controller
         bool canViewFullProfile = CanViewFullProfile(user, currentUserId);
 
         ViewBag.IsPrivateView = !canViewFullProfile;
+
+        // profil public sau e al meu -> incarc postari
+        var posts = await _db.Posts
+            .Include(p => p.User)
+            .Where(p => p.UserId == user.Id)
+            .OrderByDescending(p => p.CreatedAt)
+            .ToListAsync();
+
+        ViewBag.Posts = posts;
 
         return View(user);
     }
