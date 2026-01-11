@@ -46,3 +46,21 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.navbar-search {
+    width: 100%;
+    max-width: 420px;
+}
+
+    .navbar-search .form-control {
+        border-radius: 999px;
+        padding-left: 0;
+    }
+
+    .navbar-search .input-group-text {
+        border-radius: 999px;
+    }
+
+    .navbar-search input:focus {
+        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+    }
