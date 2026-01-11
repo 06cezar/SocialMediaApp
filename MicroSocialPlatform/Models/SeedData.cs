@@ -183,28 +183,28 @@ namespace MicroSocialPlatform.Models
                 context.Groups.AddRange(
                     new Group
                     {
-                        Id = 1,
+                        
                         Name = "ASP.NET Core Devs",
                         Description = "Discussions about ASP.NET Core, MVC, Identity & EF Core",
                         ModeratorId = "8e445865-a24d-4543-a6c6-9443d048cdb0" // admin
                     },
                     new Group
                     {
-                        Id = 2,
+                        
                         Name = "Star Wars",
                         Description = "R2D2 beep boop",
                         ModeratorId = "8e445865-a24d-4543-a6c6-9443d048cdb1" // user1
                     },
                     new Group
                     {
-                        Id = 3,
+                        
                         Name = "Uncle jokes",
                         Description = "Group for fathers",
                         ModeratorId = "8e445865-a24d-4543-a6c6-9443d048cdb1" // user1
                     },
                     new Group
                     {
-                        Id = 4,
+                       
                         Name = "Student Life",
                         Description = "Projects, deadlines, exams and student survival tips",
                         ModeratorId = "8e445865-a24d-4543-a6c6-9443d048cdb2" // user2
@@ -214,45 +214,45 @@ namespace MicroSocialPlatform.Models
                 context.Posts.AddRange(
                 new Post
                 {
-                    Id = 1,
+                    
                     Content = "Just got into something new. Feels great 😌",
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb0"
                 },
                 new Post
                 {
-                    Id = 2,
+                    
                     Content = "Anyone else struggling with EF Core migrations or is it just me?",
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb1"
                 },
                 new Post
                 {
-                    Id = 3,
+                    
                     Content = "Private profiles are underrated. Peace > drama.",
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb1"
                 },
                 new Post
                 {
-                    Id = 4,
-                    Content = "MicroSocialPlatform is finally coming together 🚀",
-                    UserId = "8e445865-a24d-4543-a6c6-9443d048cdb0"
-                },
-                new Post
-                {
-                    Id = 5,
-                    VideoPath = "0b671b6a-336c-4bd1-9b57-43a3a443ad55.mp4",
+                    
+                    VideoPath = "/uploads/posts/videos/0b671b6a-336c-4bd1-9b57-43a3a443ad55.mp4",
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb1"
                 },
                 new Post
                 {
-                    Id = 6,
-                    ImagePath = "90362412-9bf8-4476-8ed5-1a5a43d326c8.jpg",
+                    
+                    ImagePath = "/uploads/posts/images/90362412-9bf8-4476-8ed5-1a5a43d326c8.jpg",
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb1"
                 },
                 new Post
                 {
-                    Id = 7,
+                   
                     Content = "I want to be like Dr. Doofenshmirtz. He's a role model to me.",
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb3"
+                },
+                new Post
+                {
+
+                    Content = "MicroSocialPlatform is finally coming together 🚀",
+                    UserId = "8e445865-a24d-4543-a6c6-9443d048cdb0"
                 }
             );
 
